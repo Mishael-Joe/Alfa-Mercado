@@ -19,7 +19,7 @@ export const StateContext = ({ children }) => {
     const addToCart = (product, quantity) => {
         // alert(`${product.name} Added to cart`)
         const checkProductInCart = cartItems.find(item => item.id === product._id);
-        setTotalPrice((prevTotalPrice) => prevTotalPrice + product.price);
+        setTotalPrice((prevTotalPrice) => prevTotalPrice + product.price * quantity);
         setTotalQuantity((prevTotalQuantity) => prevTotalQuantity + quantity);
 
         if (checkProductInCart) {
@@ -40,7 +40,7 @@ export const StateContext = ({ children }) => {
     }
 
     const onRemove = (product) => {
-        const foundProduct = cartItems.find(item => item._id === product._id);
+        foundProduct = cartItems.find(item => item._id === product._id);
         const updatedCartItems = cartItems.filter(item => item._id !== product._id);
         // let newCartItems = [...cartItems];
         
@@ -50,8 +50,8 @@ export const StateContext = ({ children }) => {
     }
 
     const toggleCartItemQuantity = (itemId, value) => {
-        const foundProduct = cartItems.find(item => item._id === itemId);
-        const index = cartItems.findIndex(item => item._id === itemId);
+        foundProduct = cartItems.find(item => item._id === itemId);
+        index = cartItems.findIndex(item => item._id === itemId);
         let newCartItems = [...cartItems];
       
         if (value === 'increase') {
