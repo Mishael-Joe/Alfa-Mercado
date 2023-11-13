@@ -59,7 +59,7 @@ export default async function Home({ searchParams }: Props) {
  
   return (
     <main className="min-h-screen px-5 md:px-4 py-4">
-      {/* <HeadBanner heroBanner={banners && banners[0]}/> */}
+      <HeadBanner heroBanner={banners && banners[0]}/>
 
       <section>
         <div>

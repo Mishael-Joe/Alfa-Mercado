@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, Plus, Minus } from "lucide-react"
 
 import { addCommasToNumber } from "@/lib/utils"
 import { useStateContext } from "@/context/stateContext"
@@ -13,7 +13,13 @@ import { useToast } from "@/components/ui/use-toast";
 // interface Props {}
 
 export function ProductInfo({ product }: any) {
-  const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
+  const [selectedSize, setSelectedSize] = useState(() => {
+    if (product.sizes === undefined || product.sizes === null) {
+      return null;
+    }
+    return product.sizes[0];
+  });
+  
   const { toast } = useToast();
   const {addToCart, quantity, incrementQuantity, decrementQuantity} = useStateContext();
 
@@ -48,13 +54,14 @@ export function ProductInfo({ product }: any) {
       </div>
 
       <div className="mt-4">
-        <div>
-          <Button type="button" onClick={incrementQuantity}>plus</Button>
-          <p>{quantity}</p>
-          <Button type="button" onClick={decrementQuantity}>Dec</Button>
+        <div className="flex gap-4 pb-4">
+          <Button type="button" onClick={decrementQuantity}><Minus className="h-5 w-5"/></Button>
+          <Button className=" border-none" disabled>{quantity}</Button>
+          <Button type="button" onClick={incrementQuantity}><Plus className="h-5 w-5"/></Button>
         </div>
         <p>
-          Size: <strong>{getSizeName(selectedSize)}</strong>
+          {/* Size: <strong>{selectedSize && getSizeName(selectedSize)}</strong> */}
+          {selectedSize ? `size: ${getSizeName(selectedSize)}` : ''}
         </p>
         {product.sizes && product.sizes.map((size: any) => (
           <Button onClick={() => setSelectedSize(size)} key={size} variant={selectedSize ? "default" : `outline`} className="mr-2 mt-4">

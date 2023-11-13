@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { urlForImage } from "@/sanity/lib/image"
-import { Clock, X } from "lucide-react"
+import { Clock, X, Minus, Plus } from "lucide-react"
 
 import { shimmer, toBase64 } from "@/lib/image"
 import { Button } from "@/components/ui/button"
@@ -11,6 +11,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { CartItemsEmpty } from "@/components/cart-items-empty"
 import { addCommasToNumber } from "@/lib/utils"
 import { useStateContext } from "@/context/stateContext"
+
 
 export function CartItems() {
     const { toast } = useToast();
@@ -69,10 +70,10 @@ export function CartItems() {
                 <label htmlFor={`quantity-${productIdx}`} className="sr-only">
                   Quantity, {product.name}
                 </label>
-                <div>
-                    <Button type="button" onClick={() => {toggleCartItemQuantity(product._id, 'decrease')}}>Dec</Button>
-                        <p>{product.quantity}</p>
-                    <Button type="button" onClick={() => {toggleCartItemQuantity(product._id, 'increase')}}>plus</Button>
+                <div className="flex gap-4">
+                  <Button type="button" onClick={() => toggleCartItemQuantity(product._id, 'decrease')}><Minus className="h-5 w-5"/></Button>
+                  <Button className=" border-none" disabled>{product.quantity}</Button>
+                  <Button type="button" onClick={() => toggleCartItemQuantity(product._id, 'increase')}><Plus className="h-5 w-5"/></Button>
                 </div>
                 {/* <Input
                   id={`quantity-${productIdx}`}
