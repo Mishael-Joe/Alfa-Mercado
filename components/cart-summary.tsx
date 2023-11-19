@@ -5,12 +5,13 @@ import { Loader2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { useStateContext } from "@/context/stateContext"
+import Link from "next/link"
 
 export function CartSummary() {
   const { cartItems, totalPrice } = useStateContext();
 
-  const [isLoading, setIsLoading] = useState(false)
-  const disabledIsLoading = isLoading || cartItems.length === 0
+  const disabledIsLoading = cartItems.length === 0 ? true : false
+  const [isLoading, setIsLoading] = useState(disabledIsLoading)
 
   const shippingAmount = cartItems.length >= 1 ? '700' : '0';
   const orderTotal = cartItems.length >= 1 ? Number(shippingAmount) + totalPrice : 0;
@@ -45,9 +46,11 @@ export function CartSummary() {
       </dl>
 
       <div className="mt-6">
-        <Button className="w-full" disabled={disabledIsLoading}>
-          {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" /> }
-          {isLoading ? 'Loading...' : 'Checkout' }
+      <Button className="w-full" disabled={disabledIsLoading}>
+          <Link className="flex w-full" href={`/checkout`}>
+            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" /> }
+            {isLoading ? 'Loading...' : 'Checkout' }
+          </Link>
         </Button>
       </div>
     </section>
