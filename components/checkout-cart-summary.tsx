@@ -33,7 +33,6 @@ export function CheckoutSummary() {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    setIsLoading(() => true)
 
     if (
       formData.name === '' || 
@@ -51,6 +50,7 @@ export function CheckoutSummary() {
       
       return
     }
+    setIsLoading(() => true)
 
     try {
       const response = await fetch('/api/flutterwave', {
