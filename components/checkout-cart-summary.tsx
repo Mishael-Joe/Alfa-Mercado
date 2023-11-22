@@ -1,52 +1,48 @@
-// import { useState } from "react"
-
-// import { FlutterWaveButton, closePaymentModal } from 'flutterwave-react-v3';
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/components/ui/use-toast"
 
 import { useStateContext } from "@/context/stateContext"
 // import Link from "next/link"
 import { addCommasToNumber } from "@/lib/utils";
+import { Loader2 } from "lucide-react";
 import { useState, FormEvent } from 'react';
 
 export function CheckoutSummary() {
   const { cartItems, totalPrice, shippingFee, grandTotalPrice, formData } = useStateContext();
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const { toast } = useToast();
-
-  // const config = {
-  //   tx_ref: "123345fiifflsow" + Math.floor(Math.random() * 999999),
-  //   amount: grandTotalPrice,
-  //   currency: 'NGN',
-  //   payment_options: 'card,mobilemoney,ussd',
-  //   customer: {
-  //     name: formData.name,
-  //     email: formData.email,
-  //     phone_number: formData.primaryPhoneNumber,
-  //   },
-  //   meta: {
-  //     secondary_phone_number: formData.secondaryPhoneNumber || '',
-  //     address: formData.address,
-  //     postal_code: formData.postalcode || '',
-  //     city: formData.city,
-  //     state: formData.state
-  //   },
-  //   customizations: {
-  //     title: 'My store',
-  //     description: 'Payment for items in cart',
-  //     logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
-  //   },
-  // };
+  const disabledIsLoading = false
+  const [isLoading, setIsLoading] = useState(disabledIsLoading)
 
   const config = {
-    details: {...formData},
-    cartItem: {...cartItems}
+    amount: grandTotalPrice,
+    customer: {
+      name: formData.name,
+      email: formData.email,
+      phone_number: formData.primaryPhoneNumber,
+    },
+    meta: {
+      secondary_phone_number: formData.secondaryPhoneNumber || '',
+      address: formData.address,
+      postal_code: formData.postalcode || '',
+      city: formData.city,
+      state: formData.state,
+      itemsInCart: {...cartItems}
+    },
   };
+
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    if (formData.name === '' || formData.email === '' || formData.phone_number === '') {
+    setIsLoading(() => true)
+
+    if (
+      formData.name === '' || 
+      formData.email === '' || 
+      formData.phone_number === '' ||
+      formData.address === '' ||
+      formData.city === '' ||
+      formData.state === ''
+      ) {
       toast({
         variant: "destructive",
         title: `ERROR`,
@@ -57,28 +53,29 @@ export function CheckoutSummary() {
     }
 
     try {
-      const response = await fetch('/api/route', {
+      const response = await fetch('/api/flutterwave', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(cartItems),
+        body: JSON.stringify(config),
       });
-      console.log(response)
 
+      
       const data = await response.json();
-      if (response.ok) {
-        setSuccessMessage(data.message);
-        console.log(data.message);
-        window.location.href = data.redirect_url; // Redirect to the payment link
+      // console.log(data)
+      
+      if (response.status === 200) {
+        // console.log(data.data.link);
+        window.location.href = data.data.link; // Redirect to the payment link
       } else {
         console.log(data.message);
-        setErrorMessage(data.message);
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      setErrorMessage('Internal Server Error');
     }
+
+    setIsLoading(() => false);
   };
 
   return (
@@ -141,23 +138,11 @@ export function CheckoutSummary() {
 
       <div className="mt-6">
         
-        <Button className="w-full" disabled onClick={(event) => handleSubmit(event)}>
-          pay Now
-          {/* <FlutterWaveButton {...fwConfig} /> */}
+        <Button className="w-full"  onClick={(event) => handleSubmit(event)}>
+          {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" /> }
+          {isLoading ? 'Loading...' : 'Pay Now' }
         </Button>
       </div>
     </section>
   )
 }
-
-
- // const fwConfig = { public_key: 'FLWPUBK_TEST-64f66244da5182e6674ae2095e212eb4-X',
-  //   ...config,
-  //   text: 'Pay Now',
-  //   callback: (response: any) => {
-  //       console.log(response);
-  //       closePaymentModal() // this will close the modal programmatically
-  //   },
-  //   onClose: () => {},
-  // };
-  // function onCheckout() {}

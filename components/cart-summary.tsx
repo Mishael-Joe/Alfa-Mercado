@@ -8,16 +8,12 @@ import { useStateContext } from "@/context/stateContext"
 import Link from "next/link"
 
 export function CartSummary() {
-  const { cartItems, totalPrice } = useStateContext();
+  const { cartItems, totalPrice, grandTotalPrice, shippingFee } = useStateContext();
 
   const disabledIsLoading = cartItems.length === 0 ? true : false
   const [isLoading, setIsLoading] = useState(disabledIsLoading)
 
-  const shippingAmount = cartItems.length >= 1 ? '700' : '0';
-  const orderTotal = cartItems.length >= 1 ? Number(shippingAmount) + totalPrice : 0;
   const Subtotal = totalPrice >= 1 ? totalPrice : 0;
-
-  function onCheckout() {}
 
   return (
     <section
@@ -37,11 +33,11 @@ export function CartSummary() {
           <dt className="flex items-center text-sm">
             <span>Shipping estimate</span>
           </dt>
-          <dd className="text-sm font-medium">&#8358; {Number(shippingAmount)}</dd>
+          <dd className="text-sm font-medium">&#8358; {Number(shippingFee)}</dd>
         </div>
         <div className="flex items-center justify-between border-t border-gray-200 pt-4 dark:border-gray-600">
           <dt className="text-base font-medium">Order total</dt>
-          <dd className="text-base font-medium">&#8358; {orderTotal}</dd>
+          <dd className="text-base font-medium">&#8358; {grandTotalPrice}</dd>
         </div>
       </dl>
 
