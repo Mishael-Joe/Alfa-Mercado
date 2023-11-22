@@ -23,25 +23,66 @@ export const StateContext = ({ children }) => {
     city: '',
     state: '',
   })
+  const [successFormData, setSuccessFormData] = useState({
+    name: '',
+    email: '',
+  })
 
   const [cartItemsFromStorage, setCartItemsFromStorage] = useLocalStorage("cartItems", []);
   const [totalPriceFromStorage, setTotalPriceFromStorage] = useLocalStorage("totalPrice", 0);
   const [totalQuantityFromStorage, setTotalQuantityFromStorage] = useLocalStorage("totalQuantity", 0);
   const [quantityFromStorage, setQuantityFromStorage] = useLocalStorage("quantity", 1);
-  const [shippingFeeFromStorage, setShippingFeeFromStorage] = useLocalStorage("shippingFee", cartItems.length >= 1 ? 700 : 0);
-  const [grandTotalPriceFromStorage, setgrandTotalPriceFromStorage] = useLocalStorage("grandTotalPrice", cartItems.length >= 1 ? totalPrice + shippingFee : 0);
+  const [shippingFeeFromStorage, setShippingFeeFromStorage] = useLocalStorage("shippingFee", 0);
+  const [grandTotalPriceFromStorage, setgrandTotalPriceFromStorage] = useLocalStorage("grandTotalPrice", 0);
+  const [successFormDataNameFromStorage, setSuccessFormDataNameFromStorage] = useLocalStorage("FormDataName", '');
+  const [SuccessFormDataEmailFromStorage, setSuccessFormDataEmailFromStorage] = useLocalStorage("FormDataEmail", '');
 
   useEffect(() => {
     setCartItems(cartItemsFromStorage);
     setTotalPrice(totalPriceFromStorage);
     setTotalQuantity(totalQuantityFromStorage);
     setQuantity(quantityFromStorage);
-  }, [cartItemsFromStorage, totalPriceFromStorage, totalQuantityFromStorage, quantityFromStorage]);
-  
-  useEffect(() => {
     setShippingFee(shippingFeeFromStorage);
     setGrandTotalPrice(grandTotalPriceFromStorage);
-  }, [cartItemsFromStorage]);
+  }, [cartItemsFromStorage, totalPriceFromStorage, totalQuantityFromStorage, quantityFromStorage]);
+
+  useEffect(() => {
+    setSuccessFormDataNameFromStorage((prev) => (prev = formData.name));
+    setSuccessFormDataEmailFromStorage((prev) => (prev = formData.email));
+  }, [formData.name, formData.email]);
+  
+  
+  useEffect(() => {
+    setSuccessFormData((prev) => ({
+      ...prev,
+      name: successFormDataNameFromStorage,
+      email: SuccessFormDataEmailFromStorage,
+    }));
+  }, [formData.name, formData.email]);
+  
+  
+  useEffect(() => {
+    if (cartItems.length === 0) {
+      setShippingFeeFromStorage(0)
+    } else {
+      setShippingFeeFromStorage(700)
+    }
+    if (cartItems.length === 0) {
+      setgrandTotalPriceFromStorage(0)
+    } else {
+      setgrandTotalPriceFromStorage(shippingFeeFromStorage + totalPrice)
+    }
+  }, [cartItems, totalPrice, totalQuantity]);
+
+  const clearItemsInCart = () => {
+    useEffect(() => {
+      setCartItemsFromStorage([]);
+      setTotalPriceFromStorage(0);
+      setTotalQuantityFromStorage(0);
+      setShippingFeeFromStorage(0);
+      setgrandTotalPriceFromStorage(0);
+    }, [])
+  };
 
   const addToCart = (product, quantity) => {
     // alert(`${product.name} Added to cart`)
@@ -169,10 +210,10 @@ export const StateContext = ({ children }) => {
     const { name, value } = event.target;
 
     setFormData((prev) => {
-        return {
-        ...prev,
-        [name]: value,
-        };
+      return {
+      ...prev,
+      [name]: value,
+      };
     });
     // console.log(formData);
   }
@@ -190,6 +231,8 @@ export const StateContext = ({ children }) => {
         handleChange,
         totalQuantity,
         grandTotalPrice,
+        successFormData,
+        clearItemsInCart,
         incrementQuantity,
         decrementQuantity,
         toggleCartItemQuantity,
