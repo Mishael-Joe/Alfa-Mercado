@@ -9,7 +9,7 @@ function HeadBanner({ heroBanner }: any) {
           <p className=' py-2 left-3 md:text-4xl sm:text-xl absolute text-slate-100'>{heroBanner.smallText}</p>
 
           <div>
-            <Image src={urlForImage(heroBanner.image).url()} width={400} height={200} alt='' className='object-cover w-[100%] h-[50%] rounded-lg'/>
+            <Image src={urlForImage(heroBanner.image).url()} width={400} height={200} priority alt='' className='object-cover w-[100%] h-[50%] rounded-lg'/>
           </div>
 
             <p className=' text-[3rem] sm:text-[6rem] md:text-[10rem] absolute left-3 top-10 text-slate-100'>{heroBanner.largeText2}</p>
