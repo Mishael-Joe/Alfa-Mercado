@@ -29,7 +29,7 @@ export async function POST(request) {
           postal_code: postal_code ,
           city: city,
           state: state,
-          itemsInCart: {...itemsInCart},
+          itemsInCart: itemsInCart,
         },
         customer: {
           email: email,
