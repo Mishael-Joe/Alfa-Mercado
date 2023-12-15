@@ -1,8 +1,8 @@
 import { defineField, defineType } from "sanity"
 
-export const product = defineType({
-    name: 'fashion',
-    title: 'Fashion',
+export const phone_accessories = defineType({
+    name: 'phone-accessories',
+    title: 'Phone-Accessories',
     type: 'document',
     fields: [
         defineField({
@@ -36,12 +36,6 @@ export const product = defineType({
             of: [{type: 'string'}]
         }),
         defineField({
-            name: 'sizes',
-            title: 'Sizes',
-            type: 'array',
-            of: [{type: 'string'}]
-        }),
-        defineField({
             name: 'colors',
             title: 'Colors',
             type: 'array',
@@ -51,6 +45,12 @@ export const product = defineType({
             name: 'description',
             title: 'Description',
             type: 'string',
+        }),
+        defineField({
+            name: 'specifications',
+            title: 'Specifications',
+            type: 'array',
+            of: [{type: 'string'}]
         }),
         defineField({
             name: 'sku',

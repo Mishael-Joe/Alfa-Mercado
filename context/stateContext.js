@@ -13,6 +13,8 @@ export const StateContext = ({ children }) => {
 
   const [shippingFee, setShippingFee] = useState(0)
   const [grandTotalPrice, setGrandTotalPrice] = useState(0)
+  // const [selectedOption, setSelectedOption] = useState('freeShipping');
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',

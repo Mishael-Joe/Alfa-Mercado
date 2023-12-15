@@ -10,9 +10,17 @@ import { getSizeName } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/components/ui/use-toast";
 
+import ShareButton from "../utils/shareBTN"
+// import { useRouter } from 'next/router';
+
 // interface Props {}
 
 export function ProductInfo({ product }: any) {
+  // const router = useRouter();
+  const currentUrl = typeof window !== 'undefined' ? window.location.href : ''; // or router.pathname for the path without query parameters
+
+  console.log('Current URL:', currentUrl);
+  // console.log(product);
   const [selectedSize, setSelectedSize] = useState(() => {
     if (product.sizes === undefined || product.sizes === null) {
       return null;
@@ -54,10 +62,16 @@ export function ProductInfo({ product }: any) {
       </div>
 
       <div className="mt-4">
-        <div className="flex gap-4 pb-4">
-          <Button type="button" onClick={decrementQuantity}><Minus className="h-5 w-5"/></Button>
-          <Button className=" border-none" disabled>{quantity}</Button>
-          <Button type="button" onClick={incrementQuantity}><Plus className="h-5 w-5"/></Button>
+        <div className="flex gap-4 pb-4 w-full justify-between">
+          <div className="flex gap-4 pb-4">
+            <Button type="button" onClick={decrementQuantity}><Minus className="h-5 w-5"/></Button>
+            <Button className=" border-none" disabled>{quantity}</Button>
+            <Button type="button" onClick={incrementQuantity}><Plus className="h-5 w-5"/></Button>
+          </div>
+
+          <div>
+            <ShareButton slug={currentUrl} />
+          </div>
         </div>
         <p>
           {/* Size: <strong>{selectedSize && getSizeName(selectedSize)}</strong> */}

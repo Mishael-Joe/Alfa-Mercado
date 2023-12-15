@@ -11,10 +11,11 @@ interface Props {
 }
 
 export default async function Page({ params }: Props) {
-  const product = await client.fetch(groq `*[_type == 'product' && slug.current == "${params.slug}"][0] {
+  const product = await client.fetch(groq `*[(_type == "fashion" || _type == "body-care-product" || _type == "phone-accessories" || _type == "school-supplies") && slug.current == "${params.slug}"][0] {
     _id,
     _createdAt,
     "id": _id,
+    _type,
     name,
     sku,
     images,
@@ -24,9 +25,9 @@ export default async function Page({ params }: Props) {
     sizes,
     categories,
     colors,
-    "slug": sug.currentl
+    "slug": slug.current
   }`)
-  // console.log(product)
+  // console.log('Product', product)
 
 
   return (
