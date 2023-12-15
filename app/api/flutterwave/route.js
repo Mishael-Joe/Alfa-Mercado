@@ -9,8 +9,8 @@ export async function POST(request) {
   const { amount } = requestBody;
   const { email, phone_number, name} = requestBody.customer;
   const { address, secondary_phone_number, city, state, postal_code, itemsInCart} = requestBody.meta;
-  
-  // console.log(amount);
+
+  // console.log(JSON.stringify(itemsInCart));
 
   try {
     const response = await got.post('https://api.flutterwave.com/v3/payments', {
@@ -29,7 +29,7 @@ export async function POST(request) {
           postal_code: postal_code ,
           city: city,
           state: state,
-          itemsInCart: itemsInCart,
+          itemsInCart: JSON.stringify(itemsInCart), //"https://cdn.sanity.io/images/l27j660s/production/951a5290b639ff9e46540e3743516d823793bf90-4480x6720.jpg", //arr.map(i => i * 2) //['hhklkj', 'jfjfjfj'], //'me.. me!!!', //{...itemsInCart},
         },
         customer: {
           email: email,
@@ -37,9 +37,9 @@ export async function POST(request) {
           name: name,
         },
         customizations: {
-          title: 'Unimart store',
+          title: `Alfa-Mercado store`,
           description: 'Payment for items in cart',
-          logo: "http://www.piedpiper.com/app/themes/joystick-v27/images/logo.png",
+          logo: "http://www.piedpiper.com/app/themes/joystick-v27/images/logo.png", //TODO: remove this logo and replace it with one gotten from sanity i.e http://cdn.sanity.io/...
         },
       },
     }).json();

@@ -16,12 +16,10 @@ const filters = [
     id: "category",
     name: "Category",
     options: [
-      { value: "bags", label: "Bags" },
-      { value: "clothes", label: "Clothes" },
-      { value: "sunglasses", label: "Sunglasses" },
-      { value: "books", label: "Books and publications" },
-      { value: "housing", label: "Housing" },
-      { value: "phones", label: "Phones" },
+      { value: "school supplies", label: "School Supplies" },
+      { value: "fashion", label: "Fashion" },
+      { value: "body care", label: "Body Care" },
+      { value: "phone accessories", label: "Phones Accessories" },
     ],
   },
   {

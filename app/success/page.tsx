@@ -88,7 +88,7 @@ export default function Page() {
     )
   }
   
-  if ( status === 'success') {
+  if ( status === 'success' || status === 'successful') {
 
     const clearStorage = () => {
       if (startsWithSuccess) {

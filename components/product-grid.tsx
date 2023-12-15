@@ -9,6 +9,7 @@ import { addCommasToNumber } from "@/lib/utils"
 
 
 export function ProductGrid({ products }: any) {
+  
   if (products.length === 0) {
     return (
       <div className="mx-auto grid h-40 w-full place-items-center rounded-md border-2 border-dashed bg-gray-50 py-10 text-center dark:bg-gray-900">

@@ -25,7 +25,8 @@ export function SiteHeader() {
     const formData = new FormData(event.currentTarget);
     const searchQuery = formData.get('search');
     router.push(`/?search=${searchQuery}`)
-    console.log(searchQuery);
+    router.refresh();
+    // console.log(searchQuery);
   }
 
   return (

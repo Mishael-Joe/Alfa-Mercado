@@ -26,7 +26,7 @@ export function CheckoutSummary() {
       postal_code: formData.postalcode || '',
       city: formData.city,
       state: formData.state,
-      itemsInCart: cartItems,
+      itemsInCart: {...cartItems},
     },
   };
 
