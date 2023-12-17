@@ -11,15 +11,17 @@ import { Button } from "@/components/ui/button"
 import { useToast } from "@/components/ui/use-toast";
 
 import ShareButton from "../utils/shareBTN"
-// import { useRouter } from 'next/router';
+import { useRouter, usePathname} from "next/navigation"
 
 // interface Props {}
 
 export function ProductInfo({ product }: any) {
-  // const router = useRouter();
-  const currentUrl = typeof window !== 'undefined' ? window.location.href : ''; // or router.pathname for the path without query parameters
+  const router = useRouter();
+  const pathname = usePathname();
+  const baseUrl = `${window.location.protocol}//${window.location.host}`;
+  const currentUrl =  `${baseUrl}/${pathname}`
 
-  console.log('Current URL:', currentUrl);
+  // console.log('Current :', currentUrl);
   // console.log(product);
   const [selectedSize, setSelectedSize] = useState(() => {
     if (product.sizes === undefined || product.sizes === null) {
@@ -64,9 +66,9 @@ export function ProductInfo({ product }: any) {
       <div className="mt-4">
         <div className="flex gap-4 pb-4 w-full justify-between">
           <div className="flex gap-4 pb-4">
-            <Button type="button" onClick={decrementQuantity}><Minus className="h-5 w-5"/></Button>
+            <Button type="button" onClick={() => {decrementQuantity(), router.refresh()}}><Minus className="h-5 w-5"/></Button>
             <Button className=" border-none" disabled>{quantity}</Button>
-            <Button type="button" onClick={incrementQuantity}><Plus className="h-5 w-5"/></Button>
+            <Button type="button" onClick={() => {incrementQuantity(), router.refresh()}}><Plus className="h-5 w-5"/></Button>
           </div>
 
           <div>
