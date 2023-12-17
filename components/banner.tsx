@@ -1,3 +1,4 @@
+"use client"
 
 // import { useState, useEffect } from 'react';
 // import { client } from "@/sanity/lib/client"
@@ -50,11 +51,12 @@
 
 import Image from 'next/image'
 import { urlForImage } from '@/sanity/lib/image'
+import FirstTimeVisitor from '@/utils/FirstTimeVisitor/page'
 
 function HeadBanner({ heroBanner }: any) {
   return (
     <section className='mx-auto max-w-6xl'>
-        
+        <FirstTimeVisitor />
         <div className='relative'>
           <p className=' py-2 left-3 md:text-4xl sm:text-xl absolute text-slate-100'>{heroBanner.smallText}</p>
 

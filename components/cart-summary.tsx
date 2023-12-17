@@ -1,31 +1,31 @@
 "use client"
 
 import { useState } from "react"
-import { Loader2 } from "lucide-react"
+import { Info, Loader2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { useStateContext } from "@/context/stateContext"
 import Link from "next/link"
 import { Switch } from "./ui/switch"
 import { useToast } from "@/components/ui/use-toast"
+import { getDeliveryWindow } from "@/utils/shared/shared"
+import DoorDelivery from "@/utils/DoorDelivery/doorDelivery"
+import FreeDelivery from "@/utils/FreeDelivery/freeDelivery"
 
 export function CartSummary() {
   const { toast } = useToast();
-  const { cartItems, totalPrice, grandTotalPrice, shippingFee } = useStateContext();
+  const { cartItems, totalPrice, grandTotalPrice, shippingFee, deliveryMethod, handleOptionChange } = useStateContext();
 
   const disabledIsLoading = cartItems.length === 0 ? true : false
   const isLoading = disabledIsLoading;
-  const [selectedOption, setSelectedOption] = useState('doorDelivery');
+  // const [DeliveryMethod, setDeliveryMethod] = useState('doorDelivery');
 
-  const handleOptionChange = (option: string) => {
-    setSelectedOption(option);
-    // alert(`Option selected ${option}`);
-  };
+  
 
   const Subtotal = totalPrice >= 1 ? totalPrice : 0;
 
-  // const checkselectedOption = () => {
-  //   if (selectedOption === '') {
+  // const checkDeliveryMethod = () => {
+  //   if (DeliveryMethod === '') {
   //     toast({
   //       variant: "destructive",
   //       title: `ERROR`,
@@ -41,16 +41,16 @@ export function CartSummary() {
       aria-labelledby="summary-heading"
       className="mt-16 rounded-lg border-2 border-gray-200 bg-gray-50 px-4 py-6 shadow-md dark:border-gray-900 dark:bg-black sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8"
     >
-      {cartItems.length >= 0 && (
-        <div className=" border p-4 rounded-md shadow-2xl mb-5">
+      {cartItems.length >= 1 && (
+        <div className=" border p-4 rounded-md shadow-lg mb-5">
           <h2 id="summary-heading" className="text-lg font-medium">
             Shipping/Delivery Method
           </h2>
 
           <div className="mt-6 space-y-4 flex flex-row items-center justify-between rounded-lg border p-4">
             <div className="space-y-0.5">
-              <p className="text-lg">
-                Free Shipping
+              <p className="text-lg flex items-center gap-2">
+                Free Shipping <FreeDelivery/>
               </p>
 
               <p className="text-sm text-gray-400">
@@ -59,7 +59,7 @@ export function CartSummary() {
             </div>
 
             <Switch
-              checked={selectedOption === 'freeShipping'}
+              checked={deliveryMethod === 'freeShipping'}
               onCheckedChange={() => handleOptionChange('freeShipping')}
             />
 
@@ -67,18 +67,18 @@ export function CartSummary() {
 
           <div className="mt-6 space-y-4 flex flex-row items-center justify-between rounded-lg border p-4">
             <div className="space-y-0.5">
-              <p className="text-lg">
-                Door Delivery
+              <p className="text-lg flex items-center gap-2">
+                 Door Delivery <DoorDelivery />
               </p>
 
               <p className="text-sm text-gray-400">
-                Delivery Fees ₦ 700.
-                Ready for delivery between 16 December & 18 December when you order within next 15hrs 41mins
+                Delivery Fees ₦ 700. <br/>
+                {getDeliveryWindow()}
               </p>
             </div>
 
             <Switch
-              checked={selectedOption === 'doorDelivery'}
+              checked={deliveryMethod === 'doorDelivery'}
               onCheckedChange={() => handleOptionChange('doorDelivery')}
             />
 
@@ -100,7 +100,7 @@ export function CartSummary() {
             <dt className="flex items-center text-sm">
               <span>Shipping estimate</span>
             </dt>
-            <dd className="text-sm font-medium">&#8358; {Number(shippingFee)}</dd>
+            <dd className="text-sm font-medium">{shippingFee !== 0 && <span>&#8358;</span>} {shippingFee === 0 ? `Free Shipping` : `${Number(shippingFee)}`}</dd>
           </div>
           <div className="flex items-center justify-between border-t border-gray-200 pt-4 dark:border-gray-600">
             <dt className="text-base font-medium">Order total</dt>
