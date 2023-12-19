@@ -108,7 +108,7 @@ export default function Page() {
             Order Successful!
           </h1>
           <h3 className="mt-8 text-2xl leading-7">
-            Thank you, <span className="font-extrabold">{successFormData.name}</span>!
+            Thank you, <span className="font-extrabold">{`${successFormData.name}!`}</span>
           </h3>
           <p className="mt-8">
             Check your purchase email{" "}
