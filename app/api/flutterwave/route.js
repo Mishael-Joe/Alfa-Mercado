@@ -21,7 +21,7 @@ export async function POST(request) {
         tx_ref: "123345fiifflsow" + Math.floor(Math.random() * 999999),
         amount: amount,
         currency: 'NGN',
-        payment_options: 'card,mobilemoney,ussd',
+        payment_options: 'card', // TODO: (Done) we only support card payment options
         redirect_url: `${origin}/success`,
         meta: {
           secondary_phone_number: secondary_phone_number ,
@@ -29,7 +29,7 @@ export async function POST(request) {
           postal_code: postal_code ,
           city: city,
           state: state,
-          itemsInCart: JSON.stringify(itemsInCart), //"https://cdn.sanity.io/images/l27j660s/production/951a5290b639ff9e46540e3743516d823793bf90-4480x6720.jpg", //arr.map(i => i * 2) //['hhklkj', 'jfjfjfj'], //'me.. me!!!', //{...itemsInCart},
+          itemsInCart: JSON.stringify(itemsInCart), //"https://cdn.sanity.io/images/l27j660s/production/951a5290b639ff9e46540e3743516d823793bf90-4480x6720.jpg", 
         },
         customer: {
           email: email,

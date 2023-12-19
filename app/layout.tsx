@@ -16,6 +16,7 @@ import { StateContext } from '@/context/stateContext'
 export const metadata: Metadata = {
   title: siteConfig.name,
   description: siteConfig.description,
+  keywords: siteConfig.keywords,
   icons: {
     icon: '/favicon.ico',
   }
@@ -28,7 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={``}>
+      <body className={`scroll-smooth`}>
         <StateContext>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <SiteHeader />
