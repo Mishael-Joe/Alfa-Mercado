@@ -15,7 +15,7 @@ export async function POST(request) {
   try {
     const response = await got.post('https://api.flutterwave.com/v3/payments', {
       headers: {
-        Authorization: `Bearer ${process.env.NEXT_SECRET_FLUTTERWAVE_SECRET_KEY}`,
+        Authorization: `Bearer ${process.env.FLW_SECRET_KEY}`,
       },
       json: {
         tx_ref: "123345fiifflsow" + Math.floor(Math.random() * 999999),
