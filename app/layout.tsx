@@ -14,7 +14,7 @@ import { StateContext } from '@/context/stateContext'
 
 
 export const metadata: Metadata = {
-  title: siteConfig.name,
+  title: siteConfig.siteName,
   description: siteConfig.description,
   keywords: siteConfig.keywords,
   icons: {
