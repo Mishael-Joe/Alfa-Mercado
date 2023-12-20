@@ -18,7 +18,7 @@ const filters = [
     options: [
       { value: "school supplies", label: "School Supplies" },
       { value: "fashion", label: "Fashion" },
-      { value: "body care", label: "Body Care" },
+      { value: "body care products", label: "Body Care" },
       { value: "phone accessories", label: "Phones Accessories" },
     ],
   },

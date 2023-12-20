@@ -232,42 +232,35 @@ interface Props {
 
 
 export default async function Home({ searchParams }: Props) {
-
   const { color, category, size, search } = searchParams;
   const { date = 'desc', price } = searchParams; //we make use of object distructuring here with a default date set to descending
-  const priceOrder = price ? `| order(price ${price})` : ''
-  const dateOrder = date ? `| order(_createdAt ${date})` : ''
+  const priceOrder = price ? `price ${price},` : '';
+  const dateOrder = date ? `_createdAt ${date},` : '';
 
-  // const priceOrder = searchParams.price ?  `| order(price ${searchParams.price})` : ''  // we are not using object destructuring here
-  // const dateOrder = searchParams.date ? `| order(_createdAt ${searchParams.date})` : ''  // we are not using object destructuring here
+  const order = `${priceOrder} ${dateOrder}`.slice(0, -1); // Remove the trailing comma
 
-  const order = `${priceOrder} ${dateOrder}`
+  const productFilter = `(_type == "fashion" || _type == "body-care-product" || _type == "phone-accessories" || _type == "school-supplies")`;
+  const categoryFilter = category ? `&& "${category}" in categories` : ``;
+  const colorFilter = color ? `&& "${color}" in colors` : ``;
+  const sizeFilter = size ? `&& "${size}" in sizes` : ``;
+  const searchFilter = search ? `&& [name, categories] match "${search}**"` : ``;
 
-  const productFilter = `(_type == "fashion" || _type == "body-care-product" || _type == "phone-accessories" || _type == "school-supplies")`
-  const categoryFilter = category ? `&& "${category}" in categories` : ``
-  const colorFilter = color ? `&& "${color}" in colors` : ``
-  const sizeFilter = size ? `&& "${size}" in sizes` : ``
-  const searchFilter = search ? `&& [name, categories] match "${search}**"` : ``
-
-  const filter = `*[${productFilter}${categoryFilter}${colorFilter}${sizeFilter}${searchFilter}]`
+  const filter = `*[${productFilter}${categoryFilter}${colorFilter}${sizeFilter}${searchFilter}]`;
 
   const banner = '*[_type == "banner"]';
-  const product = groq `${filter} ${order} {
+  const product = groq`${filter} | order(${order}) {
     _id,
     name,
-    currency,
-    sku,
     price,
     images,
-    description,
     _createdAt,
     "slug": slug.current
   }`;
 
-  const banners = await client.fetch(banner)
-  const products = await client.fetch(product)
+  const banners = await client.fetch(banner);
+  const products = await client.fetch(product);
 
-  // console.log(searchParams)
+  console.log(products[0]);
  
   return (
     <main className="min-h-screen px-5 md:px-4 py-4">
