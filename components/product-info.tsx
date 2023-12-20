@@ -30,6 +30,13 @@ export function ProductInfo({ product }: any) {
     return product.sizes[0];
   });
   
+  const [selectedColor, setSelectedColor] = useState(() => {
+    if (product.colors === undefined || product.colors === null ) {
+      return null;
+    }
+    return product.colors[0];
+  });
+  
   const { toast } = useToast();
   const {addToCart, quantity, incrementQuantity, decrementQuantity} = useStateContext();
 
@@ -82,6 +89,16 @@ export function ProductInfo({ product }: any) {
         {product.sizes && product.sizes.map((size: any) => (
           <Button onClick={() => setSelectedSize(size)} key={size} variant={selectedSize ? "default" : `outline`} className="mr-2 mt-4">
             {size && getSizeName(size)}
+          </Button>
+        ))}
+
+        <p>
+          {/* Size: <strong>{selectedSize && getSizeName(selectedSize)}</strong> */}
+          {selectedColor ? `Color: ${selectedColor}` : ''}
+        </p>
+        {product.colors && product.colors.map((color: any) => (
+          <Button onClick={() => setSelectedColor(color)} key={color} variant={selectedSize ? `outline` : `default`} className={`mr-2 mt-4`}>
+            {color && color}
           </Button>
         ))}
       </div>
