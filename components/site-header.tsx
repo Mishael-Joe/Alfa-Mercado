@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { MainNav } from "@/components/main-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
 
 export function SiteHeader() {
   const pathname = usePathname()
@@ -62,6 +63,18 @@ export function SiteHeader() {
           </Link>
 
           <ThemeToggle />
+
+          <SignedIn>
+            {/* Mount the UserButton component */}
+            <UserButton afterSignOutUrl="/" />
+          </SignedIn>
+
+          <SignedOut>
+            {/* Signed out users get sign in button */}
+            <SignInButton>
+              <Button>Sign in</Button>
+            </SignInButton>
+          </SignedOut>
 
           {process.env.NODE_ENV === 'development' && (
             <Link href={'/studio'}>

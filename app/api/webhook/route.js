@@ -103,9 +103,6 @@ export async function POST(request) {
             <ul>
               <li> Flutterwave Transaction Reference: <b>${flutterwaveTransactionReference}<b> <li>
               <li> Narration: <b>${narration}<b> <li>
-              <li> Payment Type: <b>${paymentType}<b> <li>
-              <li> Customer Phone Number: <b>${customerPhoneNumber}<b><li>
-              <li> Card Type: <b>${cardType}<b> <li>
             </ul>
   
             <h3>NOTE: Before giving the customer value, Please review this information to ensure everything looks correct. If you have any questions or need further assistance, feel free to reach out.</h3>
@@ -115,8 +112,62 @@ export async function POST(request) {
             <b>Alfa-Mercado Automated Notification</b>
           `, // html body
         }
+
+        const customersSuccessPayment = {
+          from: 'mishaeljoe55@zohomail.com', // sender address
+          to: `${customerEmail}`, // list of receivers
+          subject: "Successful Transaction Notification", // Subject line
+          text: "", // plain text body
+          html: `
+            <h2>Congratulations! We are thrilled to inform you that your recent transaction on Alfa-Mercado was successful. Your purchase has been confirmed, and we are grateful for your trust in us.</h2>
+            <h3>NOTE: Before giving the customer value always confirm the Transaction status to see if it is a success or failure status</h3> </br>
+            <h3>Here are the details:</h3> </br>
+  
+            <p>Transaction Details:</p>
+            <ul>
+              <li> Transaction ID: <b>${transactionId}<b><li>
+              <li> Transaction Amount: <b>${transactionAmount}<b><li>
+              <li> Transaction Reference: <b>${transactionReference}<b><li>
+              <li> Payment Type: <b>${paymentType}<b><li>
+              <li> Processor Response: <b>${processorResponse}</b><li>
+              <li> Transaction Status: <b>${status}<b><li>
+              <li> Transaction Date: <b>${createdAt}<b><li>
+            </ul>
+            
+            // <h4>Your order is now being processed, and you can expect the following:</h4>
+
+            // <p>Shipping Information:</p>
+            // <ul>
+            //   <li> Shipping Address: <b><b><li>
+            //   <li> Estimated Delivery Date: <b>4 days<b><li>
+            // </ul>
+
+            // <p>Product Details:</p>
+            // <ul>
+            //   <li> Product Name: <b><b> <li>
+            //   <li> Quantity: <b><b> <li>
+            //   <li> Price: <b><b> <li>
+            // </ul>
+
+
+            // <p>Payment Summary:</p>
+            // <ul>
+            //   <li> Subtotal: <b><b> <li>
+            //   <li> Tax: <b><b> <li>
+            //   <li> Shipping Fee: <b><b> <li>
+            //   <li> Total Amount: <b><b> <li>
+            // </ul>
+  
+            <p>If you have any questions or concerns regarding your order, feel free to contact our support team at mishaeljoe55@zohomail.com.</p>
+            <p>Thank you for choosing Alfa-Mercado. We appreciate your business and look forward to serving you again in the future.</p>
+            
+            <b>Best regards</b>
+            <b>Alfa-Mercado Team</b>
+          `, // html body
+        }
     
         await transporter.sendMail(mailOptions);
+        // await transporter.sendMail(customersSuccessPayment);
         // transporter.sendMail(mailOptions);
     
         return NextResponse.json({message: 'message sent successfully'}, {status: 200});
