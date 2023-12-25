@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import './globals.css'
+import '../globals.css'
 
 import { siteConfig } from '@/config/site'
 import { SiteHeader } from '@/components/site-header'
@@ -11,6 +11,7 @@ import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 
 import { StateContext } from '@/context/stateContext'
+import { ClerkProvider } from '@clerk/nextjs'
 
 
 export const metadata: Metadata = {
@@ -27,20 +28,23 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
   return (
-    <html lang="en">
-      <body className={`scroll-smooth`}>
-        <StateContext>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <SiteHeader />
-            <SiteBlob />
-            <Toaster />
-            <div>{children}</div>
-            <SiteFooter />
-            <TailwindIndicator />
-          </ThemeProvider>
-        </StateContext>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`scroll-smooth`}>
+            <StateContext>
+              <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+                <SiteHeader />
+                <SiteBlob />
+                <Toaster />
+                <div>{children}</div>
+                <SiteFooter />
+                <TailwindIndicator />
+              </ThemeProvider>
+            </StateContext>
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }
