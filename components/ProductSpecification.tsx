@@ -10,11 +10,11 @@ export function ProductSpecification({ product }: any) {
             </h2>
 
             <div className=" border p-4 rounded-md shadow-2xl">
-                {product.specifications.map((specification: any) => (
-                    <ul className="py-3 list-inside">
-                        <li className="list-disc">{specification}</li>
-                    </ul>
-                ))}
+                <ul className="py-3 list-inside" >
+                    {product.specifications.map((specification: any, i: number) => (
+                        <li className="list-disc" key={i}>{specification}</li>
+                    ))}
+                </ul>
             </div>
         </div>
     )

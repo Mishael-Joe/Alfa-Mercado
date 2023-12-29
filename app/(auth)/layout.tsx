@@ -5,6 +5,7 @@ import { SiteBlob } from '@/components/site-blob'
 import { ThemeProvider } from "@/components/theme-provider"
 import { StateContext } from '@/context/stateContext'
 import { ClerkProvider } from '@clerk/nextjs'
+import { dark } from '@clerk/themes';
 
 export const metadata: Metadata = {
   title: siteConfig.siteName,
@@ -21,7 +22,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+    appearance={{
+      baseTheme: dark
+    }}
+    >
       <html lang="en">
         <body className={`scroll-smooth`}>
             <StateContext>
