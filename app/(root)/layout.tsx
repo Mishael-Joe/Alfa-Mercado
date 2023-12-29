@@ -12,6 +12,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 
 import { StateContext } from '@/context/stateContext'
 import { ClerkProvider } from '@clerk/nextjs'
+import { dark } from '@clerk/themes';
 
 
 export const metadata: Metadata = {
@@ -30,7 +31,11 @@ export default function RootLayout({
 }) {
 
   return (
-    <ClerkProvider>
+    <ClerkProvider
+    appearance={{
+      baseTheme: dark
+    }}
+    >
       <html lang="en">
         <body className={`scroll-smooth`}>
             <StateContext>

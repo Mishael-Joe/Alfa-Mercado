@@ -260,7 +260,7 @@ export default async function Home({ searchParams }: Props) {
   const banners = await client.fetch(banner);
   const products = await client.fetch(product);
 
-  console.log(products[0]);
+  // console.log(products[0]);
  
   return (
     <main className="min-h-screen px-5 md:px-4 py-4">

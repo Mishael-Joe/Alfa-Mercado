@@ -2,9 +2,21 @@
 
 import { CheckoutSummary } from "@/components/checkout-cart-summary";
 import { useStateContext } from "@/context/stateContext"
+import { useUser } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
 const LoginForm = () => {
-    const { cartItems, totalPrice, formData, handleChange } = useStateContext();
+    const { isSignedIn, user } = useUser();
+    if (!isSignedIn) redirect('/sign-in');
+    const { cartItems, totalPrice, formData, handleChange, updateUser } = useStateContext();
+    if (isSignedIn) updateUser(user);
+    const disableNameInput = user.fullName !== undefined || null || '' ? true : false;
+    const disableEmailInput = user.primaryEmailAddress?.emailAddress !== undefined || null || '' ? true : false;
+
+
+    // console.log('isSignedIn', isSignedIn);
+    // console.log('user', user);
+    // console.log('user', user.phoneNumbers[0].phoneNumber);
 
     return (        
         <div>
@@ -27,6 +39,7 @@ const LoginForm = () => {
                             placeholder="Your Name "
                             required
                             className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border-2 dark:border-1 border-gray-300 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-gray-200 dark:focus:border-gray-200 focus:ring-green-100 focus:outline-none focus:ring focus:ring-opacity-10 focus:border-2" 
+                            disabled={disableNameInput}
                             />
                         </div>
                         
@@ -39,6 +52,7 @@ const LoginForm = () => {
                             placeholder="E-Mail"
                             required
                             className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border-2 dark:border-1 border-gray-300 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-gray-200 dark:focus:border-gray-200 focus:ring-green-100 focus:outline-none focus:ring focus:ring-opacity-10 focus:border-2" 
+                            disabled={disableEmailInput}
                             />
                         </div>
 

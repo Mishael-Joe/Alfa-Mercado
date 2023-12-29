@@ -90,6 +90,18 @@ export const StateContext = ({ children }) => {
     }, [])
   };
 
+  const updateUser = (user) => {
+    console.log(user);
+    useEffect(() => {
+      setFormData((prev) => ({
+        ...prev,
+        name: user.fullName ? user.fullName : '',
+        email: user.primaryEmailAddress?.emailAddress ?  user.primaryEmailAddress?.emailAddress : '',
+        primaryPhoneNumber: user.phoneNumbers[0].phoneNumber ? user.phoneNumbers[0].phoneNumber : '',
+      }));
+    }, []);
+  }
+
   const addToCart = (product, quantity) => {
     // alert(`${product.name} Added to cart`)
     // Find the product in the cart items array.
@@ -238,6 +250,7 @@ export const StateContext = ({ children }) => {
         addToCart,
         cartItems,
         totalPrice,
+        updateUser,
         shippingFee,
         handleChange,
         totalQuantity,

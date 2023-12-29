@@ -21,6 +21,8 @@ export function SiteHeader() {
   
   if (pathname.startsWith('/studio')) return null;
 
+  const displaySearchInput = pathname.endsWith('/');
+
   const handleSubmit = (event : React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -29,6 +31,7 @@ export function SiteHeader() {
     router.refresh();
     // console.log(searchQuery);
   }
+  // console.log('displaySearchInput',displaySearchInput);
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
@@ -37,7 +40,7 @@ export function SiteHeader() {
 
         <MainNav />
 
-        <form  onKeyUp={handleSubmit} className="hidden items-center lg:inline-flex">
+        {displaySearchInput && <form  onKeyUp={handleSubmit} className="hidden items-center lg:inline-flex">
           <Input
             id="search"
             name="search"
@@ -47,7 +50,7 @@ export function SiteHeader() {
             className="h-9 lg:w-[300px]"
             defaultValue={defaultSearchQuery}
           />
-        </form>
+        </form>}
 
         <div className="flex items-center space-x-1">
           <Link href="/cart">
