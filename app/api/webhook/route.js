@@ -120,7 +120,6 @@ export async function POST(request) {
           text: "", // plain text body
           html: `
             <h2>Congratulations! We are thrilled to inform you that your recent transaction on Alfa-Mercado was successful. Your purchase has been confirmed, and we are grateful for your trust in us.</h2>
-            <h3>NOTE: Before giving the customer value always confirm the Transaction status to see if it is a success or failure status</h3> </br>
             <h3>Here are the details:</h3> </br>
   
             <p>Transaction Details:</p>
@@ -134,13 +133,13 @@ export async function POST(request) {
               <li> Transaction Date: <b>${createdAt}<b><li>
             </ul>
             
-            // <h4>Your order is now being processed, and you can expect the following:</h4>
+            <h4>Your order is now being processed, and you can expect the following:</h4>
 
-            // <p>Shipping Information:</p>
-            // <ul>
-            //   <li> Shipping Address: <b><b><li>
-            //   <li> Estimated Delivery Date: <b>4 days<b><li>
-            // </ul>
+            <p>Shipping Information:</p>
+            <ul>
+              // <li> Shipping Address: <b><b><li>
+              <li> Estimated Delivery Date: <b>3 days<b><li>
+            </ul>
 
             // <p>Product Details:</p>
             // <ul>
@@ -167,10 +166,10 @@ export async function POST(request) {
         }
     
         await transporter.sendMail(mailOptions);
-        // await transporter.sendMail(customersSuccessPayment);
+        await transporter.sendMail(customersSuccessPayment);
         // transporter.sendMail(mailOptions);
     
-        return NextResponse.json({message: 'message sent successfully'}, {status: 200});
+        return NextResponse.json({ message: 'message sent successfully' }, { status: 200 });
       } catch (err) {
         console.error('Error response body:', err);
         // You might want to handle or log the error more appropriately

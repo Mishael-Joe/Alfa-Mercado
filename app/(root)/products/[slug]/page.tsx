@@ -3,7 +3,7 @@ import { groq } from "next-sanity"
 
 import { ProductGallery } from "@/components/product-gallery"
 import { ProductInfo } from "@/components/product-info"
-import { ProductSpecification } from "@/components/ProductSpecification";
+import { ProductSpecification } from "@/components/product-specification"; 
 
 interface Props {
   params: {
