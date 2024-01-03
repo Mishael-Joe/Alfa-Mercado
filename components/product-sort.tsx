@@ -73,7 +73,7 @@ export function ProductSort() {
             />
           </form>
           
-          <Link href={'/join-us'}>
+          <Link href={'/seller-hub'}>
             <Button className="mt-8 w-full bg-violet-600 py-6 text-base font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500">Sell on Alfa</Button>
           </Link>
 
