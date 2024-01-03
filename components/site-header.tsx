@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { MainNav } from "@/components/main-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
 
 export function SiteHeader() {
   const pathname = usePathname()
@@ -20,13 +21,17 @@ export function SiteHeader() {
   
   if (pathname.startsWith('/studio')) return null;
 
+  const displaySearchInput = pathname.endsWith('/');
+
   const handleSubmit = (event : React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const searchQuery = formData.get('search');
     router.push(`/?search=${searchQuery}`)
-    console.log(searchQuery);
+    router.refresh();
+    // console.log(searchQuery);
   }
+  // console.log('displaySearchInput',displaySearchInput);
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
@@ -35,7 +40,7 @@ export function SiteHeader() {
 
         <MainNav />
 
-        <form  onKeyUp={handleSubmit} className="hidden items-center lg:inline-flex">
+        {displaySearchInput && <form  onKeyUp={handleSubmit} className="hidden items-center lg:inline-flex">
           <Input
             id="search"
             name="search"
@@ -45,7 +50,7 @@ export function SiteHeader() {
             className="h-9 lg:w-[300px]"
             defaultValue={defaultSearchQuery}
           />
-        </form>
+        </form>}
 
         <div className="flex items-center space-x-1">
           <Link href="/cart">
@@ -61,6 +66,18 @@ export function SiteHeader() {
           </Link>
 
           <ThemeToggle />
+
+          <SignedIn>
+            {/* Mount the UserButton component */}
+            <UserButton afterSignOutUrl="/" />
+          </SignedIn>
+
+          <SignedOut>
+            {/* Signed out users get sign in button */}
+            <SignInButton>
+              <Button>Sign in</Button>
+            </SignInButton>
+          </SignedOut>
 
           {process.env.NODE_ENV === 'development' && (
             <Link href={'/studio'}>

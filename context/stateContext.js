@@ -13,6 +13,8 @@ export const StateContext = ({ children }) => {
 
   const [shippingFee, setShippingFee] = useState(0)
   const [grandTotalPrice, setGrandTotalPrice] = useState(0)
+  const [deliveryMethod, setDeliveryMethod] = useState('doorDelivery');
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -23,6 +25,7 @@ export const StateContext = ({ children }) => {
     city: '',
     state: '',
   })
+
   const [successFormData, setSuccessFormData] = useState({
     name: '',
     email: '',
@@ -33,7 +36,7 @@ export const StateContext = ({ children }) => {
   const [totalQuantityFromStorage, setTotalQuantityFromStorage] = useLocalStorage("totalQuantity", 0);
   const [quantityFromStorage, setQuantityFromStorage] = useLocalStorage("quantity", 1);
   const [shippingFeeFromStorage, setShippingFeeFromStorage] = useLocalStorage("shippingFee", 0);
-  const [grandTotalPriceFromStorage, setgrandTotalPriceFromStorage] = useLocalStorage("grandTotalPrice", 0);
+  const [grandTotalPriceFromStorage, setGrandTotalPriceFromStorage] = useLocalStorage("grandTotalPrice", 0);
   const [successFormDataNameFromStorage, setSuccessFormDataNameFromStorage] = useLocalStorage("FormDataName", '');
   const [SuccessFormDataEmailFromStorage, setSuccessFormDataEmailFromStorage] = useLocalStorage("FormDataEmail", '');
 
@@ -44,8 +47,8 @@ export const StateContext = ({ children }) => {
     setQuantity(quantityFromStorage);
     setShippingFee(shippingFeeFromStorage);
     setGrandTotalPrice(grandTotalPriceFromStorage);
-  }, [cartItemsFromStorage, totalPriceFromStorage, totalQuantityFromStorage, quantityFromStorage]);
-
+  }, [cartItemsFromStorage, totalPriceFromStorage, totalQuantityFromStorage, grandTotalPriceFromStorage, deliveryMethod, shippingFeeFromStorage]);
+  
   useEffect(() => {
     setSuccessFormDataNameFromStorage((prev) => (prev = formData.name));
     setSuccessFormDataEmailFromStorage((prev) => (prev = formData.email));
@@ -59,30 +62,45 @@ export const StateContext = ({ children }) => {
       email: SuccessFormDataEmailFromStorage,
     }));
   }, [formData.name, formData.email]);
-  
-  
+
   useEffect(() => {
     if (cartItems.length === 0) {
       setShippingFeeFromStorage(0)
     } else {
-      setShippingFeeFromStorage(700)
+      if (deliveryMethod === 'freeShipping') {
+        setShippingFeeFromStorage(0)
+      } else if (deliveryMethod === 'doorDelivery') {
+        setShippingFeeFromStorage(700)
+      }
     }
     if (cartItems.length === 0) {
-      setgrandTotalPriceFromStorage(0)
+      setGrandTotalPriceFromStorage(0)
     } else {
-      setgrandTotalPriceFromStorage(shippingFeeFromStorage + totalPrice)
+      setGrandTotalPriceFromStorage(shippingFeeFromStorage + totalPrice)
     }
-  }, [cartItems, totalPrice, totalQuantity]);
-
+  }, [cartItemsFromStorage, totalPriceFromStorage, totalQuantityFromStorage, grandTotalPriceFromStorage, deliveryMethod, shippingFeeFromStorage]);
+  
   const clearItemsInCart = () => {
     useEffect(() => {
       setCartItemsFromStorage([]);
       setTotalPriceFromStorage(0);
       setTotalQuantityFromStorage(0);
       setShippingFeeFromStorage(0);
-      setgrandTotalPriceFromStorage(0);
+      setGrandTotalPriceFromStorage(0);
     }, [])
   };
+
+  const updateUser = (user) => {
+    console.log(user);
+    useEffect(() => {
+      setFormData((prev) => ({
+        ...prev,
+        name: user.fullName ? user.fullName : '',
+        email: user.primaryEmailAddress?.emailAddress ?  user.primaryEmailAddress?.emailAddress : '',
+        primaryPhoneNumber: user.phoneNumbers[0].phoneNumber ? user.phoneNumbers[0].phoneNumber : '',
+      }));
+    }, []);
+  }
 
   const addToCart = (product, quantity) => {
     // alert(`${product.name} Added to cart`)
@@ -217,6 +235,11 @@ export const StateContext = ({ children }) => {
     });
     // console.log(formData);
   }
+
+  const handleOptionChange = (option) => {
+    setDeliveryMethod(option);
+    // alert(`Option selected ${option}`);
+  };
     
   return (
     <Context.Provider
@@ -227,14 +250,17 @@ export const StateContext = ({ children }) => {
         addToCart,
         cartItems,
         totalPrice,
+        updateUser,
         shippingFee,
         handleChange,
         totalQuantity,
+        deliveryMethod,
         grandTotalPrice,
         successFormData,
         clearItemsInCart,
         incrementQuantity,
         decrementQuantity,
+        handleOptionChange,
         toggleCartItemQuantity,
       }}
     >

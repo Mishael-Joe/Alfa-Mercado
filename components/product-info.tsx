@@ -10,14 +10,31 @@ import { getSizeName } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/components/ui/use-toast";
 
+import ShareButton from "../utils/shareBTN"
+import { useRouter, usePathname} from "next/navigation"
+
 // interface Props {}
 
 export function ProductInfo({ product }: any) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const baseUrl = `${window.location.protocol}//${window.location.host}`;
+  const currentUrl =  `${baseUrl}/${pathname}`
+
+  // console.log('Current :', currentUrl);
+  // console.log(product);
   const [selectedSize, setSelectedSize] = useState(() => {
     if (product.sizes === undefined || product.sizes === null) {
       return null;
     }
     return product.sizes[0];
+  });
+  
+  const [selectedColor, setSelectedColor] = useState(() => {
+    if (product.colors === undefined || product.colors === null ) {
+      return null;
+    }
+    return product.colors[0];
   });
   
   const { toast } = useToast();
@@ -54,10 +71,16 @@ export function ProductInfo({ product }: any) {
       </div>
 
       <div className="mt-4">
-        <div className="flex gap-4 pb-4">
-          <Button type="button" onClick={decrementQuantity}><Minus className="h-5 w-5"/></Button>
-          <Button className=" border-none" disabled>{quantity}</Button>
-          <Button type="button" onClick={incrementQuantity}><Plus className="h-5 w-5"/></Button>
+        <div className="flex gap-4 pb-4 w-full justify-between">
+          <div className="flex gap-4 pb-4">
+            <Button type="button" onClick={() => {decrementQuantity(), router.refresh()}}><Minus className="h-5 w-5"/></Button>
+            <Button className=" border-none" disabled>{quantity}</Button>
+            <Button type="button" onClick={() => {incrementQuantity(), router.refresh()}}><Plus className="h-5 w-5"/></Button>
+          </div>
+
+          <div>
+            <ShareButton slug={currentUrl} />
+          </div>
         </div>
         <p>
           {/* Size: <strong>{selectedSize && getSizeName(selectedSize)}</strong> */}
@@ -66,6 +89,16 @@ export function ProductInfo({ product }: any) {
         {product.sizes && product.sizes.map((size: any) => (
           <Button onClick={() => setSelectedSize(size)} key={size} variant={selectedSize ? "default" : `outline`} className="mr-2 mt-4">
             {size && getSizeName(size)}
+          </Button>
+        ))}
+
+        <p>
+          {/* Size: <strong>{selectedSize && getSizeName(selectedSize)}</strong> */}
+          {selectedColor ? `Color: ${selectedColor}` : ''}
+        </p>
+        {product.colors && product.colors.map((color: any) => (
+          <Button onClick={() => setSelectedColor(color)} key={color} variant={selectedSize ? `outline` : `default`} className={`mr-2 mt-4`}>
+            {color && color}
           </Button>
         ))}
       </div>

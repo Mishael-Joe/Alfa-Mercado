@@ -26,14 +26,13 @@ export function CheckoutSummary() {
       postal_code: formData.postalcode || '',
       city: formData.city,
       state: formData.state,
-      itemsInCart: {...cartItems}
+      itemsInCart: {...cartItems},
     },
   };
 
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    setIsLoading(() => true)
 
     if (
       formData.name === '' || 
@@ -51,6 +50,7 @@ export function CheckoutSummary() {
       
       return
     }
+    setIsLoading(() => true)
 
     try {
       const response = await fetch('/api/flutterwave', {
@@ -128,7 +128,7 @@ export function CheckoutSummary() {
           <dt className="flex items-center text-sm">
             <span>Shipping estimate</span>
           </dt>
-          <dd className="text-sm font-medium">&#8358; {addCommasToNumber(Number(shippingFee))}</dd>
+          <dd className="text-sm font-medium">{shippingFee !== 0 && <span>&#8358;</span>} {shippingFee === 0 ? `Free Shipping` : `${Number(shippingFee)}`}</dd>
         </div>
         <div className="flex items-center justify-between border-t border-gray-200 pt-4 dark:border-gray-600">
           <dt className="text-base font-medium">Order total</dt>

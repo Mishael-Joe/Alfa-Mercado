@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { Filter } from "lucide-react"
+import { Filter, MenuIcon } from "lucide-react"
 
 import {
   Select,
@@ -20,6 +20,9 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { ProductFilters } from "@/components/product-filters"
+import { Input } from "./ui/input"
+import { Button } from "./ui/button"
+import Link from "next/link"
 
 const sortOptions = [
   { name: "Newest", value: "/?date=desc" },
@@ -58,12 +61,28 @@ export function ProductSort() {
           </SheetHeader>
 
           <ProductFilters />
+
+          <form className="items-center lg:inline-flex pt-8">
+            <Input
+              id="search"
+              name="search"
+              type="search"
+              autoComplete="off"
+              placeholder="Search products..."
+              className="h-9 lg:w-[300px]"
+            />
+          </form>
           
+          <Link href={'/join-us'}>
+            <Button className="mt-8 w-full bg-violet-600 py-6 text-base font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500">Sell on Alfa</Button>
+          </Link>
+
         </SheetContent>
 
         <SheetTrigger className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden">
           <span className="sr-only">Filters</span>
-          <Filter className="h-5 w-5" aria-hidden="true" />
+          {/* <Filter className="h-5 w-5" aria-hidden="true" /> */}
+          <MenuIcon className="h-6 w-6" aria-hidden="true" />
         </SheetTrigger>
       </Sheet>
     </div>

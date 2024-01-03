@@ -10,18 +10,18 @@ import {
 } from "@/components/ui/accordion"
 
 import { Checkbox } from "@/components/ui/checkbox"
+import { Button } from "./ui/button"
+import Link from "next/link"
 
 const filters = [
   {
     id: "category",
     name: "Category",
     options: [
-      { value: "bags", label: "Bags" },
-      { value: "clothes", label: "Clothes" },
-      { value: "sunglasses", label: "Sunglasses" },
-      { value: "books", label: "Books and publications" },
-      { value: "housing", label: "Housing" },
-      { value: "phones", label: "Phones" },
+      { value: "school supplies", label: "School Supplies" },
+      { value: "fashion", label: "Fashion" },
+      { value: "body care products", label: "Body Care" },
+      { value: "phone accessories", label: "Phones Accessories" },
     ],
   },
   {
@@ -104,6 +104,10 @@ export function ProductFilters() {
           </AccordionItem>
         </Accordion>
       ))}
+
+      <Link href={'/join-us'}>
+        <Button className="mt-8 hidden lg:inline-flex w-full bg-violet-600 py-6 text-base font-medium text-white hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500">Sell on Alfa</Button>
+      </Link>
     </form>
   )
 }
