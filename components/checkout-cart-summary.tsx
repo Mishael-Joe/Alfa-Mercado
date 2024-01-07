@@ -53,7 +53,7 @@ export function CheckoutSummary() {
     setIsLoading(() => true)
 
     try {
-      const response = await fetch('/api/flutterwave', {
+      const response = await fetch('/api/paystack', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -63,11 +63,11 @@ export function CheckoutSummary() {
 
       
       const data = await response.json();
-      // console.log(data)
+      console.log(data)
       
       if (response.status === 200) {
         // console.log(data.data.link);
-        window.location.href = data.data.link; // Redirect to the payment link
+        window.location.href = data.data.authorization_url; // Redirect to the payment link
       } else {
         console.log(data.message);
       }
