@@ -12,6 +12,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { StateContext } from '@/context/stateContext'
 import { ClerkProvider } from '@clerk/nextjs'
 import { dark } from '@clerk/themes';
+import { SiteFooter } from '@/components/site-footer'
 
 
 export const metadata: Metadata = {
@@ -43,6 +44,7 @@ export default function RootLayout({
                 <SiteBlob />
                 <Toaster />
                 <div>{children}</div>
+                <SiteFooter />
                 <TailwindIndicator />
               </ThemeProvider>
             </StateContext>
