@@ -9,7 +9,7 @@ export const sellerInfoValidation = z.object({
     businessName: z.string().min(3, { message: 'Minimum 3 Characters'}).max(30),
     productName: z.string().min(3, { message: 'Minimum 3 Characters'}).max(30),
     productDescription: z.string().min(50, { message: 'Minimum 50 Characters'}).max(1000),
-    productCategory: z.string().min(3, { message: 'Minimum 3 Characters'}).max(15),
+    productCategory: z.string().min(3, { message: 'Minimum 3 Characters'}),
     productPrice: z.coerce.number().positive(),
     qualitiesAvailable: z.coerce.number().positive().min(10, { message: 'Quality cann\'t be less then 10'})
 })
