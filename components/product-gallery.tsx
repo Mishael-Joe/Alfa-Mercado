@@ -42,7 +42,7 @@ export function ProductGallery({ product }: any) {
       </div>
 
       {/* Main Image */}
-      <div className="aspect-h-1 aspect-w-1 w-full">
+      <div className="aspect-h-1 aspect-w-1 w-full p-3.5 sm:p-0">
         <Image
           priority
           src={urlForImage(product.images[selectedImage]).url()}

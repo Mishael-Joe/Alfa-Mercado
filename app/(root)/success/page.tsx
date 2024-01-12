@@ -95,10 +95,8 @@ export default function Page() {
         clearItemsInCart();
       }
     }
-
-    // clearStorage();
-
     
+    clearStorage();
   }
 
   return (

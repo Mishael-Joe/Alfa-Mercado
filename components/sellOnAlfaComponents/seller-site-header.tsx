@@ -8,7 +8,7 @@ import { Button } from "../ui/button"
 
 export function SellerSiteHeader() {
   const pathname = usePathname()
-  const displaySearchInput = pathname.startsWith('/seller-hub');
+  const displaySearchInput = pathname.endsWith('/seller-hub');
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
