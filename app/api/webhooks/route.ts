@@ -159,7 +159,7 @@ export async function POST(request: Request) {
                   <li> Transaction Status: <b>${status}<b><li>
                   <li> verification Status: <b>${eventStatus}<b><li>
                   <li> verification message: <b>${eventMessage}<b><li>
-                  <li> Transaction Date: <b>${createdAt}<b><li>
+                  <li> Transaction Date: <b>${new Date(createdAt).toLocaleString()}<b><li>
                 </ul>
                   
                 <p>Customer Details:</p>
@@ -208,7 +208,7 @@ export async function POST(request: Request) {
                   <li> Payment Type: <b>${paymentType}<b><li>
                   <li> Processor Response: <b>${processorResponse}</b><li>
                   <li> Transaction Status: <b>${status}<b><li>
-                  <li> Transaction Date: <b>${createdAt}<b><li>
+                  <li> Transaction Date: <b>${new Date(createdAt).toLocaleString()}<b><li>
                 </ul>
                 
                 <h4>Your order is now being processed, and you can expect the following:</h4>
@@ -272,7 +272,7 @@ export async function POST(request: Request) {
                   <li> Payment Type: <b>${paymentType}<b><li>
                   <li> Processor Response: <b>${processorResponse}</b><li>
                   <li> Transaction Status: <b>${status}<b><li>
-                  <li> Transaction Date: <b>${createdAt}<b><li>
+                  <li> Transaction Date: <b>${new Date(createdAt).toLocaleString()}<b><li>
                 </ul>
       
                 <p>Please review your payment details and ensure that they are accurate. If you believe there has been an error, you may want to contact your financial institution or try an alternative payment method.</p>
@@ -305,7 +305,7 @@ export async function POST(request: Request) {
                   <li> Payment Type: <b>${paymentType}<b><li>
                   <li> Processor Response: <b>${processorResponse}</b><li>
                   <li> Transaction Status: <b>${status}<b><li>
-                  <li> Transaction Date: <b>${createdAt}<b><li>
+                  <li> Transaction Date: <b>${new Date(createdAt).toLocaleString()}<b><li>
                 </ul>
       
                 <b>Action Required:</b>
