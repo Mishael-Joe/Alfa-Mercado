@@ -206,7 +206,7 @@ function AboutSellerAndProduct() {
                                 />
                             </FormControl>
                             <FormDescription>
-                                Brief Description of Your Product
+                                Brief Description of Your Product.
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -262,12 +262,12 @@ function AboutSellerAndProduct() {
                     name="qualitiesAvailable"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Qualities Available</FormLabel>
+                            <FormLabel>Quantities Available</FormLabel>
                             <FormControl>
                                 <Input {...field} type="number"/>
                             </FormControl>
                             <FormDescription>
-                                Qualities Available Shouldn't be less than 10
+                                This Shouldn't be less than 10.
                             </FormDescription>
                             <FormMessage />
                         </FormItem>

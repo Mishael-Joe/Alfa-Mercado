@@ -1,14 +1,15 @@
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/components/ui/use-toast"
+const { v4: uuidv4 } = require('uuid');
 
 import { useStateContext } from "@/context/stateContext"
-// import Link from "next/link"
+
 import { addCommasToNumber } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { useState, FormEvent } from 'react';
 
 export function CheckoutSummary() {
-  const { cartItems, totalPrice, shippingFee, grandTotalPrice, formData } = useStateContext();
+  const { cartItems, totalPrice, shippingFee, grandTotalPrice, formData, deliveryMethod } = useStateContext();
   const { toast } = useToast();
   const disabledIsLoading = false
   const [isLoading, setIsLoading] = useState(disabledIsLoading)
@@ -18,15 +19,17 @@ export function CheckoutSummary() {
     customer: {
       name: formData.name,
       email: formData.email,
+      uniqueRef: "Alfa" + uuidv4(),
       phone_number: formData.primaryPhoneNumber,
     },
     meta: {
-      secondary_phone_number: formData.secondaryPhoneNumber || '',
-      address: formData.address,
-      postal_code: formData.postalcode || '',
       city: formData.city,
       state: formData.state,
+      address: formData.address,
       itemsInCart: {...cartItems},
+      deliveryMethod: deliveryMethod,
+      postal_code: formData.postalcode || '',
+      secondary_phone_number: formData.secondaryPhoneNumber || '',
     },
   };
 
@@ -63,7 +66,7 @@ export function CheckoutSummary() {
 
       
       const data = await response.json();
-      console.log(data)
+      // console.log(data)
       
       if (response.status === 200) {
         // console.log(data.data.link);
