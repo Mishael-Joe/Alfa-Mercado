@@ -1,40 +1,21 @@
 "use client"
 
-import { useState } from "react"
-import { Info, Loader2 } from "lucide-react"
+import { Loader2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { useStateContext } from "@/context/stateContext"
 import Link from "next/link"
 import { Switch } from "./ui/switch"
-import { useToast } from "@/components/ui/use-toast"
 import { getDeliveryWindow } from "@/utils/shared/shared"
 import DoorDelivery from "@/utils/DoorDelivery/doorDelivery"
 import FreeDelivery from "@/utils/FreeDelivery/freeDelivery"
 
 export function CartSummary() {
-  const { toast } = useToast();
   const { cartItems, totalPrice, grandTotalPrice, shippingFee, deliveryMethod, handleOptionChange } = useStateContext();
 
   const disabledIsLoading = cartItems.length === 0 ? true : false
   const isLoading = disabledIsLoading;
-  // const [DeliveryMethod, setDeliveryMethod] = useState('doorDelivery');
-
-  
-
   const Subtotal = totalPrice >= 1 ? totalPrice : 0;
-
-  // const checkDeliveryMethod = () => {
-  //   if (DeliveryMethod === '') {
-  //     toast({
-  //       variant: "destructive",
-  //       title: `ERROR`,
-  //       description: `Please select a shipping option`,
-  //     })
-  //   } 
-    
-  //   return
-  // }
 
   return (
     <section
@@ -59,8 +40,8 @@ export function CartSummary() {
             </div>
 
             <Switch
-              checked={deliveryMethod === 'freeShipping'}
-              onCheckedChange={() => handleOptionChange('freeShipping')}
+              checked={deliveryMethod === 'Free Shipping'}
+              onCheckedChange={() => handleOptionChange('Free Shipping')}
             />
 
           </div>
@@ -68,7 +49,7 @@ export function CartSummary() {
           <div className="mt-6 space-y-4 flex flex-row items-center justify-between rounded-lg border p-4">
             <div className="space-y-0.5">
               <p className="text-lg flex items-center gap-2">
-                 Door Delivery <DoorDelivery />
+                Door Delivery <DoorDelivery />
               </p>
 
               <p className="text-sm text-gray-400">
@@ -78,8 +59,8 @@ export function CartSummary() {
             </div>
 
             <Switch
-              checked={deliveryMethod === 'doorDelivery'}
-              onCheckedChange={() => handleOptionChange('doorDelivery')}
+              checked={deliveryMethod === 'Door Delivery'}
+              onCheckedChange={() => handleOptionChange('Door Delivery')}
             />
 
           </div>

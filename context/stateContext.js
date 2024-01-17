@@ -13,7 +13,7 @@ export const StateContext = ({ children }) => {
 
   const [shippingFee, setShippingFee] = useState(0)
   const [grandTotalPrice, setGrandTotalPrice] = useState(0)
-  const [deliveryMethod, setDeliveryMethod] = useState('doorDelivery');
+  const [deliveryMethod, setDeliveryMethod] = useState('Door Delivery');
 
   const [formData, setFormData] = useState({
     name: '',
@@ -67,9 +67,9 @@ export const StateContext = ({ children }) => {
     if (cartItems.length === 0) {
       setShippingFeeFromStorage(0)
     } else {
-      if (deliveryMethod === 'freeShipping') {
+      if (deliveryMethod === 'Free Shipping') {
         setShippingFeeFromStorage(0)
-      } else if (deliveryMethod === 'doorDelivery') {
+      } else if (deliveryMethod === 'Door Delivery') {
         setShippingFeeFromStorage(700)
       }
     }

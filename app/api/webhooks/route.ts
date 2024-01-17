@@ -42,7 +42,7 @@ export async function POST(request: Request) {
   const transactionReference = requestBody.data.reference;
   // console.log('transactionReference', transactionReference);
 
-  const hash = crypto.createHmac('sha512', secret).update(JSON.stringify(request.body)).digest('hex');
+  const hash = crypto.createHmac('sha512', secret).update(JSON.stringify(requestBody)).digest('hex');
   const signature = headers.get('x-paystack-signature');
 
   const transporter = nodemailer.createTransport({
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
     },
   });
 
-  if (hash !== signature) {
+  if (hash == signature) {
     // Verify the transaction
 
     try {
@@ -105,6 +105,9 @@ export async function POST(request: Request) {
 
       const customerPhoneNumber = chargeData.metadata.phone_number;
       // console.log('customerPhoneNumber', customerPhoneNumber);
+      
+      const deliveryMethod = chargeData.metadata.deliveryMethod;
+      // console.log('Delivery Method', deliveryMethod);
 
       const customerEmail = chargeData.customer.email;
       // console.log('customerEmail', customerEmail);
@@ -158,13 +161,14 @@ export async function POST(request: Request) {
                   <li> verification message: <b>${eventMessage}<b><li>
                   <li> Transaction Date: <b>${createdAt}<b><li>
                 </ul>
-  
+                  
                 <p>Customer Details:</p>
-                <ul>
+                  <ul>
                   <li> Customer Name: <b>${customerName}<b><li>
                   <li> Customer Email: <b>${customerEmail}<b><li>
                   <li> Customer Phone Number: <b>${customerPhoneNumber}<b><li>
                   <li> Card Type: <b>${cardType}<b> <li>
+                  <li> Delivery Method: <b>${deliveryMethod}<b><li>
                 </ul>
   
                 <p>Customer Product(s):</p>
@@ -211,6 +215,7 @@ export async function POST(request: Request) {
                 <p>Shipping Information:</p>
                 <ul>
                   <li> Estimated Delivery Date: <b>3 days<b><li>
+                  <li> Delivery Method: <b>${deliveryMethod}<b><li>
                 </ul>
   
                 <p>Product Details:</p>
@@ -235,7 +240,6 @@ export async function POST(request: Request) {
         
             await transporter.sendMail(mailOptions);
             await transporter.sendMail(customersSuccessPayment);
-            // transporter.sendMail(mailOptions);
         
             return NextResponse.json({ message: 'message sent successfully' }, { status: 200 });
           } catch (err) {
@@ -316,7 +320,6 @@ export async function POST(request: Request) {
         
             await transporter.sendMail(mailOptions);
             await transporter.sendMail(automatedFailNotification);
-            // transporter.sendMail(mailOptions);
         
             return NextResponse.json({message: 'Failed Transaction Notification Message Sent Successfully'}, {status: 200});
           } catch (err) {
